@@ -38,7 +38,7 @@ interface ToastState {
 export default function App() {
   const [permissionStatus, setPermissionStatus] = useState<string>('Pending');
   const [pushToken, setPushToken] = useState<string>('');
-  const [serverUrl, setServerUrl] = useState<string>('http://192.168.1.10:5000'); // Sesuaikan IP backend jika di HP fisik
+  const [serverUrl, setServerUrl] = useState<string>('https://notifikasi-fcm.vercel.app');
   const [userName, setUserName] = useState<string>('User Mobile Android');
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [inAppToast, setInAppToast] = useState<ToastState>({

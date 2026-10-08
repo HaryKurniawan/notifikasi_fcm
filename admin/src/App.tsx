@@ -8,7 +8,7 @@ import { UserDevice, NotificationLog } from './types';
 import { Smartphone, Send, CheckCircle2, Server } from 'lucide-react';
 
 export const App: React.FC = () => {
-  const [serverUrl, setServerUrl] = useState<string>('http://localhost:5000');
+  const [serverUrl, setServerUrl] = useState<string>('https://notifikasi-fcm.vercel.app');
   const [devices, setDevices] = useState<UserDevice[]>([]);
   const [history, setHistory] = useState<NotificationLog[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
