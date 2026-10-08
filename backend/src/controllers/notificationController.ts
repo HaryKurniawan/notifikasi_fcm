@@ -52,7 +52,8 @@ export const sendNotification = async (req: Request, res: Response) => {
             data: payloadData || {},
           },
         ]);
-        status = 'SUCCESS';
+        const ticket = ticketChunk[0];
+        status = ticket && ticket.status === 'ok' ? 'SUCCESS' : 'FAILED';
         responseDetails = JSON.stringify(ticketChunk);
       } catch (err: any) {
         responseDetails = `Expo Push Error: ${err.message}`;
@@ -141,7 +142,8 @@ export const sendToAll = async (req: Request, res: Response) => {
               data: payloadData || {},
             },
           ]);
-          status = 'SUCCESS';
+          const ticketObj = ticket[0];
+          status = ticketObj && ticketObj.status === 'ok' ? 'SUCCESS' : 'FAILED';
           responseDetails = JSON.stringify(ticket);
         } catch (err: any) {
           responseDetails = err.message;

@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import * as Notifications from 'expo-notifications';
 import * as Device from 'expo-device';
+import Constants from 'expo-constants';
 import tw from 'twrnc';
 import FloatingToast from './components/FloatingToast';
 
@@ -109,14 +110,18 @@ export default function App() {
 
       if (finalStatus === 'granted') {
         try {
-          const tokenData = await Notifications.getExpoPushTokenAsync();
+          const projectId =
+            Constants.expoConfig?.extra?.eas?.projectId ??
+            Constants.easConfig?.projectId ??
+            'dfaff941-bd8f-4628-ba64-4486ffccd4cb';
+
+          const tokenData = await Notifications.getExpoPushTokenAsync({ projectId });
           setPushToken(tokenData.data);
-          addLog(`Token Push didapatkan: ${tokenData.data.substring(0, 25)}...`);
+          addLog(`Token Push Asli: ${tokenData.data.substring(0, 25)}...`);
         } catch (err: any) {
-          // Token simulator fallback jika tanpa projectId
+          addLog(`Gagal Token: ${err.message}`);
           const fallbackToken = `ExponentPushToken[Simulated_${Math.random().toString(36).substring(7)}]`;
           setPushToken(fallbackToken);
-          addLog(`Token Simulasi: ${fallbackToken}`);
         }
       }
     } else {
