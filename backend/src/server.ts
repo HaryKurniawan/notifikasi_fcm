@@ -29,8 +29,12 @@ app.get('/', (_req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`================================================`);
-  console.log(`🔥 Server FCM Backend (TypeScript + PostgreSQL) running at http://localhost:${PORT}`);
-  console.log(`================================================`);
-});
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`================================================`);
+    console.log(`🔥 Server FCM Backend (TypeScript + PostgreSQL) running at http://localhost:${PORT}`);
+    console.log(`================================================`);
+  });
+}
+
+export default app;

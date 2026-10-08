@@ -4,7 +4,8 @@
   "description": "Backend Notifikasi FCM dengan Express, TypeScript & Prisma ORM PostgreSQL",
   "main": "dist/server.js",
   "scripts": {
-    "build": "tsc",
+    "build": "prisma generate && tsc",
+    "vercel-build": "prisma generate && tsc",
     "start": "node dist/server.js",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "db:push": "npx prisma db push",
