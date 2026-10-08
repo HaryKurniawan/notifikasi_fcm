@@ -46,6 +46,7 @@ export const sendNotification = async (req: Request, res: Response) => {
             to: targetToken,
             sound: 'default',
             priority: 'high',
+            channelId: 'default',
             title,
             body,
             data: payloadData || {},
@@ -133,6 +134,8 @@ export const sendToAll = async (req: Request, res: Response) => {
             {
               to: user.deviceToken,
               sound: 'default',
+              priority: 'high',
+              channelId: 'default',
               title,
               body,
               data: payloadData || {},

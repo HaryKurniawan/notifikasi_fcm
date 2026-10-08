@@ -30,13 +30,20 @@ export const SendNotificationModal: React.FC<SendNotificationModalProps> = ({
   const [selectedToken, setSelectedToken] = useState<string>(
     selectedDevice ? selectedDevice.deviceToken : devices[0]?.deviceToken || ''
   );
-
-  // Input Teks Bebas yang diisi oleh Admin!
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [customData, setCustomData] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  React.useEffect(() => {
+    if (selectedDevice) {
+      setTargetType('single');
+      setSelectedToken(selectedDevice.deviceToken);
+    } else if (devices.length > 0 && !selectedToken) {
+      setSelectedToken(devices[0].deviceToken);
+    }
+  }, [selectedDevice, devices]);
 
   if (!isOpen) return null;
 
@@ -46,6 +53,13 @@ export const SendNotificationModal: React.FC<SendNotificationModalProps> = ({
 
     if (!title.trim() || !body.trim()) {
       setErrorMessage('Judul dan isi notifikasi wajib diisi!');
+      return;
+    }
+
+    const tokenToSend = targetType === 'single' ? (selectedToken || devices[0]?.deviceToken) : undefined;
+
+    if (targetType === 'single' && !tokenToSend) {
+      setErrorMessage('Belum ada device terdaftar. Silakan daftarkan device dari aplikasi mobile HP terlebih dahulu.');
       return;
     }
 
@@ -63,7 +77,7 @@ export const SendNotificationModal: React.FC<SendNotificationModalProps> = ({
     try {
       await onSend({
         targetType,
-        deviceToken: targetType === 'single' ? selectedToken : undefined,
+        deviceToken: tokenToSend,
         title,
         body,
         payloadData: payloadObj,
