@@ -156,17 +156,23 @@ export const SendNotificationModal: React.FC<SendNotificationModalProps> = ({
               </div>
 
               {targetType === 'single' && (
-                <select
-                  className="w-full bg-slate-900 border border-[#2a364f] rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
-                  value={selectedToken}
-                  onChange={(e) => setSelectedToken(e.target.value)}
-                >
-                  {devices.map((d) => (
-                    <option key={d.id} value={d.deviceToken}>
-                      {d.name} ({d.deviceType.toUpperCase()}) - {d.deviceToken.substring(0, 15)}...
-                    </option>
-                  ))}
-                </select>
+                devices.length === 0 ? (
+                  <div className="bg-amber-500/10 border border-amber-500/30 text-amber-400 p-2.5 rounded-xl text-xs">
+                    ⚠️ Belum ada device terdaftar. Buka app Mobile di HP dan klik <b>Daftarkan Device</b> terlebih dahulu.
+                  </div>
+                ) : (
+                  <select
+                    className="w-full bg-slate-900 border border-[#2a364f] rounded-xl px-3 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
+                    value={selectedToken}
+                    onChange={(e) => setSelectedToken(e.target.value)}
+                  >
+                    {devices.map((d) => (
+                      <option key={d.id} value={d.deviceToken}>
+                        {d.name} ({d.deviceType.toUpperCase()}) - {d.deviceToken.substring(0, 15)}...
+                      </option>
+                    ))}
+                  </select>
+                )
               )}
             </div>
 
