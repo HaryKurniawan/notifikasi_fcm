@@ -1,0 +1,33 @@
+// Prisma Schema for FCM Notification Backend (PostgreSQL)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id            String            @id @default(uuid())
+  name          String            @default("User Mobile")
+  deviceToken   String            @unique
+  deviceType    String            @default("android") // "android" | "ios" | "web"
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  notifications NotificationLog[]
+}
+
+model NotificationLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  title     String
+  body      String
+  data      String?
+  status    String   // "SUCCESS" | "FAILED"
+  response  String?
+  sentAt    DateTime @default(now())
+}
