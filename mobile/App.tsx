@@ -117,17 +117,20 @@ export default function App() {
 
           const tokenData = await Notifications.getExpoPushTokenAsync({ projectId });
           setPushToken(tokenData.data);
-          addLog(`Token Push Asli: ${tokenData.data.substring(0, 25)}...`);
+          addLog(`✅ Token Asli: ${tokenData.data}`);
         } catch (err: any) {
-          addLog(`Gagal Token: ${err.message}`);
-          const fallbackToken = `ExponentPushToken[Simulated_${Math.random().toString(36).substring(7)}]`;
-          setPushToken(fallbackToken);
+          console.error('Error Expo Push Token:', err);
+          setPushToken('');
+          addLog(`❌ Error Token: ${err.message}`);
+          Alert.alert(
+            'Gagal Mengambil Push Token',
+            `Error dari Expo Push Service:\n${err.message}\n\nPastikan HP terhubung ke internet dan gunakan aplikasi APK Standalone.`
+          );
         }
       }
     } else {
       setPermissionStatus('Web / Simulator');
-      const fallbackToken = `ExpoToken_Web_${Math.random().toString(36).substring(7)}`;
-      setPushToken(fallbackToken);
+      addLog('⚠️ Perangkat Web/Simulator: Notifikasi FCM Push membutuhkan HP Android fisik.');
     }
   };
 
